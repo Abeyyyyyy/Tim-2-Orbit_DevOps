@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ekstrakurikuler Sekolah - Wajib & Biasa</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e88e5',
+                        secondary: '#42a5f5',
+                        accent: '#2962ff',
+                        light: '#f5fbff',
+                        text: '#1565c0',
+                        success: '#00c853',
+                        warning: '#ff9800',
+                        'card-bg': 'rgba(255, 255, 255, 0.9)',
+                        shadow: 'rgba(66, 165, 245, 0.2)',
+                    },
+                    backgroundImage: {
+                        'digital-gradient': 'linear-gradient(135deg, #42a5f5, #1e88e5)',
+                        'regular-gradient': 'linear-gradient(135deg, #4caf50, #8bc34a)',
+                        'hero-bg': 'radial-gradient(circle at top right, rgba(30, 136, 229, 0.1), transparent 30%)',
+                        'footer-pattern': "url(\"data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%231e88e5' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E\")",
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom animations not in Tailwind */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-blue-100 text-[#1565c0] font-sans leading-relaxed overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md p-4 md:p-6 shadow-lg z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <img src="https://placehold.co/48x48/2563eb/ffffff?text=SMK" alt="Logo SMKN 4 Bandung" class="w-12 h-12 rounded-xl shadow-lg">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">SMKN 4 BANDUNG</h2>
+                    <p class="text-xs md:text-sm text-gray-600">Sekolah Menengah Kejuruan Negeri 4 Bandung</p>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Beranda</a>
+                <a href="#wajib" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Ekskul Wajib</a>
+                <a href="#biasa" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Ekskul Biasa</a>
+                <a href="#kontak" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Kontak</a>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button id="menuToggle" class="md:hidden text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            
+            <!-- Login Button -->
+            <button class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300">Login</button>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobileMenu" class="md:hidden hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+            <div class="px-4 py-4 space-y-4">
+                <a href="#home" class="block text-gray-700 hover:text-blue-600 font-medium">Beranda</a>
+                <a href="#wajib" class="block text-gray-700 hover:text-blue-600 font-medium">Ekskul Wajib</a>
+                <a href="#biasa" class="block text-gray-700 hover:text-blue-600 font-medium">Ekskul Biasa</a>
+                <a href="#kontak" class="block text-gray-700 hover:text-blue-600 font-medium">Kontak</a>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    menuToggle.innerHTML = mobileMenu.classList.contains('hidden') ? 
+                        '<i class="fas fa-bars text-xl"></i>' : 
+                        '<i class="fas fa-times text-xl"></i>';
+                });
+            }
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const nav = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    nav.style.background = 'rgba(255, 255, 255, 0.98)';
+                    nav.style.boxShadow = '0 5px 25px rgba(0,0,0,0.15)';
+                } else {
+                    nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                    nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                }
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('#mobileMenu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuToggle.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+                });
+            });
+        });
+    </script>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center pt-32 px-5 md:px-10 bg-[radial-gradient(circle_at_top_right,_rgba(30,136,229,0.1),_transparent_30%)] relative overflow-hidden">
+        <!-- Background blobs -->
+        <div class="absolute top-10 left-10 w-96 h-96 bg-[#42a5f5] rounded-full blur-3xl opacity-20 z-[-1]"></div>
+        <div class="absolute bottom-10 right-10 w-72 h-72 bg-[#2962ff] rounded-full blur-3xl opacity-15 z-[-1]"></div>
+
+        <div class="inline-block bg-blue-100/30 backdrop-blur-sm border border-blue-200/30 py-2 px-5 rounded-full mb-8 text-[#2962ff] font-semibold floating">
+            <i class="fas fa-star mr-2"></i> Mengembangkan Potensi Siswa di Era Digital
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#2962ff] to-[#1e88e5] bg-clip-text text-transparent">
+            Ekstrakurikuler Sekolah
+        </h1>
+        <p class="text-lg md:text-xl max-w-3xl mb-10">
+            Program ekstrakurikuler kami dirancang untuk mengembangkan potensi siswa dalam bidang digital dan non-digital, membentuk karakter, serta mempersiapkan masa depan yang cerah.
+        </p>
+        <button class="cta-button bg-gradient-to-r from-[#2962ff] to-[#1e88e5] text-white py-3 px-8 rounded-lg font-semibold text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+            <span class="relative z-10 flex items-center">
+                Jelajahi Ekskul <i class="fas fa-arrow-right ml-2"></i>
+            </span>
+            <span class="absolute inset-0 bg-gradient-to-r from-[#1e88e5] to-[#2962ff] translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-400"></span>
+        </button>
+    </section>
+
+    <!-- Ekskul Wajib (Digital) -->
+    <section id="wajib" class="py-24 px-5 md:px-10">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 relative pb-4 text-[#1565c0]">
+            Ekstrakurikuler Wajib
+            <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-[#1e88e5] to-[#2962ff] rounded"></span>
+        </h2>
+        <div class="inline-block bg-gradient-to-r from-[#42a5f5] to-[#1e88e5] text-white py-2 px-6 rounded-full font-semibold mb-8 shadow-md">
+            <i class="fas fa-laptop-code mr-2"></i> Fokus Pengembangan Digital
+        </div>
+        <p class="text-center max-w-3xl mx-auto mb-12 text-[#1565c0]">
+            Program wajib untuk semua siswa guna mempersiapkan kompetensi di era digital
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- ELCO -->
+            <div class="fade-in bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="p-8 md:p-10 bg-gradient-to-r from-[#42a5f5] to-[#1e88e5] text-white text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent rotate-12 origin-top-left"></div>
+                    <div class="relative z-10">
+                        <i class="fas fa-microchip text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">ELCO</h3>
+                        <p class="text-sm opacity-90">Elektronika & Otomasi Industri</p>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="mb-4 text-[#1565c0]">
+                        Ekskul yang berfokus pada pengembangan kompetensi di bidang elektronika dan sistem otomasi industri. Siswa belajar merancang, membangun, dan memprogram sistem elektronik untuk berbagai aplikasi industri.
+                    </p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pemrograman mikrokontroler</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Rangkaian elektronika digital & analog</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Sistem kendali otomatis</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Robotika industri</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Internet of Things (IoT)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ROBOTIK -->
+            <div class="fade-in bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="p-8 md:p-10 bg-gradient-to-r from-[#42a5f5] to-[#1e88e5] text-white text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent rotate-12 origin-top-left"></div>
+                    <div class="relative z-10">
+                        <i class="fas fa-robot text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">ROBOTIK</h3>
+                        <p class="text-sm opacity-90">Robotika & Kecerdasan Buatan</p>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="mb-4 text-[#1565c0]">
+                        Ekskul yang mengeksplorasi dunia robotika dan implementasi kecerdasan buatan. Siswa belajar merancang, membangun, dan memprogram robot untuk menyelesaikan berbagai tantangan.
+                    </p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Desain & konstruksi robot</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pemrograman robot dengan AI</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Computer vision & sensorik</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Kompetisi robot nasional & internasional</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Eksperimen machine learning</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ORBIT -->
+            <div class="fade-in bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="p-8 md:p-10 bg-gradient-to-r from-[#42a5f5] to-[#1e88e5] text-white text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent rotate-12 origin-top-left"></div>
+                    <div class="relative z-10">
+                        <i class="fas fa-chart-line text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">ORBIT</h3>
+                        <p class="text-sm opacity-90">Bisnis Digital & Media Kreatif</p>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="mb-4 text-[#1565c0]">
+                        Ekskul yang memadukan teknologi digital dengan kewirausahaan dan kreativitas media. Siswa belajar mengembangkan bisnis digital, pemasaran online, dan produksi konten kreatif.
+                    </p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Digital marketing & e-commerce</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pengembangan aplikasi bisnis</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Produksi konten kreatif (video, grafis)</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Analisis data pasar digital</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Manajemen media sosial</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ekskul Biasa (Non-Digital) -->
+    <section id="biasa" class="py-24 px-5 md:px-10 bg-blue-50/80 backdrop-blur-sm">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 relative pb-4 text-[#1565c0]">
+            Ekstrakurikuler Biasa
+            <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-[#1e88e5] to-[#2962ff] rounded"></span>
+        </h2>
+        <div class="inline-block bg-gradient-to-r from-[#4caf50] to-[#8bc34a] text-white py-2 px-6 rounded-full font-semibold mb-8 shadow-md">
+            <i class="fas fa-users mr-2"></i> Pilihan Sesuai Minat Siswa
+        </div>
+        <p class="text-center max-w-3xl mx-auto mb-12 text-[#1565c0]">
+            Berbagai pilihan ekstrakurikuler untuk pengembangan minat dan bakat non-digital
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- OSIS -->
+            <div class="fade-in bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="p-8 md:p-10 bg-gradient-to-r from-[#4caf50] to-[#8bc34a] text-white text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent rotate-12 origin-top-left"></div>
+                    <div class="relative z-10">
+                        <i class="fas fa-users text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">OSIS</h3>
+                        <p class="text-sm opacity-90">Organisasi Siswa Intra Sekolah</p>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="mb-4 text-[#1565c0]">
+                        Organisasi resmi di sekolah yang menjadi wadah pengembangan kepemimpinan dan organisasi bagi siswa. Mengkoordinasikan berbagai kegiatan sekolah dan program siswa.
+                    </p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pelatihan kepemimpinan</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Manajemen acara sekolah</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pengembangan karakter</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Program kesiswaan</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Kerjasama antar sekolah</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- BASKET -->
+            <div class="fade-in bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="p-8 md:p-10 bg-gradient-to-r from-[#4caf50] to-[#8bc34a] text-white text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent rotate-12 origin-top-left"></div>
+                    <div class="relative z-10">
+                        <i class="fas fa-basketball-ball text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">BASKET</h3>
+                        <p class="text-sm opacity-90">Olahraga Bola Basket</p>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="mb-4 text-[#1565c0]">
+                        Ekskul olahraga yang fokus pada pengembangan keterampilan bermain basket, kerja tim, dan kesehatan fisik. Mewakili sekolah dalam berbagai kompetisi.
+                    </p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Teknik dasar bola basket</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Strategi permainan</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Kerja tim dan komunikasi</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Kebugaran fisik</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Kompetisi antar sekolah</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- FUTSAL -->
+            <div class="fade-in bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="p-8 md:p-10 bg-gradient-to-r from-[#4caf50] to-[#8bc34a] text-white text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent rotate-12 origin-top-left"></div>
+                    <div class="relative z-10">
+                        <i class="fas fa-futbol text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">FUTSAL</h3>
+                        <p class="text-sm opacity-90">Olahraga Futsal</p>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="mb-4 text-[#1565c0]">
+                        Pengembangan keterampilan bermain futsal dengan fokus pada teknik individu, kerja tim, dan strategi permainan. Mempersiapkan tim untuk kompetisi lokal dan regional.
+                    </p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Teknik dasar futsal</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Strategi penyerangan & pertahanan</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Kebugaran fisik khusus futsal</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Turnamen antar kelas/sekolah</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pengembangan sportivitas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PRAMUKA -->
+            <div class="fade-in bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="p-8 md:p-10 bg-gradient-to-r from-[#4caf50] to-[#8bc34a] text-white text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent rotate-12 origin-top-left"></div>
+                    <div class="relative z-10">
+                        <i class="fas fa-hiking text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">PRAMUKA</h3>
+                        <p class="text-sm opacity-90">Pendidikan Kepramukaan</p>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="mb-4 text-[#1565c0]">
+                        Kegiatan pendidikan di luar lingkungan sekolah yang berfokus pada pembentukan karakter, kemandirian, kepemimpinan, dan kecintaan terhadap alam.
+                    </p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Kemah dan survival</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pertolongan pertama</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pramuka garuda</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Keterampilan kepemimpinan</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pengabdian masyarakat</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PASKIBRA -->
+            <div class="fade-in bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="p-8 md:p-10 bg-gradient-to-r from-[#4caf50] to-[#8bc34a] text-white text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent rotate-12 origin-top-left"></div>
+                    <div class="relative z-10">
+                        <i class="fas fa-flag text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">PASKIBRA</h3>
+                        <p class="text-sm opacity-90">Pasukan Pengibar Bendera</p>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="mb-4 text-[#1565c0]">
+                        Ekskul yang berfokus pada pembinaan disiplin, ketangkasan fisik, dan kecintaan terhadap tanah air melalui kegiatan baris-berbaris dan pengibaran bendera.
+                    </p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Teknik baris-berbaris</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pengetahuan protokol bendera</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pengembangan kedisiplinan</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pembinaan fisik</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Upacara bendera</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PADUAN SUARA -->
+            <div class="fade-in bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                <div class="p-8 md:p-10 bg-gradient-to-r from-[#4caf50] to-[#8bc34a] text-white text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent rotate-12 origin-top-left"></div>
+                    <div class="relative z-10">
+                        <i class="fas fa-music text-5xl mb-4"></i>
+                        <h3 class="text-2xl font-bold mb-2">PADUAN SUARA</h3>
+                        <p class="text-sm opacity-90">Vokal Grup dan Paduan Suara</p>
+                    </div>
+                </div>
+                <div class="p-6 md:p-8">
+                    <p class="mb-4 text-[#1565c0]">
+                        Pengembangan bakat menyanyi dan harmonisasi suara dalam bentuk paduan suara. Menampilkan musik berbagai genre dan mewakili sekolah dalam berbagai event.
+                    </p>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Teknik vokal dasar</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Harmonisasi suara</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Pembacaan partitur</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Penampilan di acara sekolah</li>
+                        <li class="flex items-start"><span class="text-green-500 mr-2 font-bold">✓</span> Kompetisi paduan suara</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-24 px-5 md:px-10">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 relative pb-4 text-[#1565c0]">
+            Manfaat Bergabung
+            <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-[#1e88e5] to-[#2962ff] rounded"></span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div class="fade-in bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all text-center">
+                <i class="fas fa-brain text-5xl mb-4 text-[#1e88e5] bg-gradient-to-b from-[#1e88e5] to-[#2962ff] bg-clip-text text-transparent"></i>
+                <h3 class="text-xl font-bold mb-3">Pengembangan Diri</h3>
+                <p>Mengembangkan minat, bakat, dan potensi diri di luar bidang akademik.</p>
+            </div>
+            <div class="fade-in bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all text-center">
+                <i class="fas fa-users text-5xl mb-4 text-[#1e88e5] bg-gradient-to-b from-[#1e88e5] to-[#2962ff] bg-clip-text text-transparent"></i>
+                <h3 class="text-xl font-bold mb-3">Keterampilan Sosial</h3>
+                <p>Meningkatkan kemampuan komunikasi, kerjasama, dan kepemimpinan.</p>
+            </div>
+            <div class="fade-in bg-white/90 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-blue-100/50 hover:-translate-y-3 hover:shadow-2xl transition-all text-center">
+                <i class="fas fa-graduation-cap text-5xl mb-4 text-[#1e88e5] bg-gradient-to-b from-[#1e88e5] to-[#2962ff] bg-clip-text text-transparent"></i>
+                <h3 class="text-xl font-bold mb-3">Nilai Tambah</h3>
+                <p>Menambah nilai untuk melanjutkan pendidikan ke jenjang yang lebih tinggi.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="kontak" class="bg-gradient-to-br from-[#2962ff] to-[#1e88e5] py-16 px-5 md:px-10 text-white text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-[length:100px_100px] opacity-10" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%231e88e5' fill-rule='evenodd'/%3E%3C/svg%3E&quot;);"></div>
+        <div class="relative z-10 max-w-3xl mx-auto">
+            <h3 class="text-2xl md:text-3xl font-bold mb-4">Ekstrakurikuler Sekolah</h3>
+            <p class="text-lg mb-8 opacity-90">Mengembangkan potensi siswa melalui berbagai kegiatan ekstrakurikuler</p>
+
+            <div class="flex justify-center gap-6 mb-8">
+                <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-white/15 border border-white/30 text-white text-xl hover:bg-white hover:text-[#1e88e5] hover:-translate-y-1 transition-all">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-white/15 border border-white/30 text-white text-xl hover:bg-white hover:text-[#1e88e5] hover:-translate-y-1 transition-all">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-white/15 border border-white/30 text-white text-xl hover:bg-white hover:text-[#1e88e5] hover:-translate-y-1 transition-all">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-white/15 border border-white/30 text-white text-xl hover:bg-white hover:text-[#1e88e5] hover:-translate-y-1 transition-all">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+
+            <div class="text-sm opacity-80 mt-6">
+                &copy; 2023 Sekolah Unggulan Digital. All rights reserved.<br>
+                Jl. Pendidikan No. 123, Kota Pendidikan | Telp: (021) 1234-5678
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle functionality (already implemented above)
+        // Navbar scroll effect (already implemented above)
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('appear');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            fadeElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // CTA Button Scroll
+            const ctaButton = document.querySelector('.cta-button');
+            if (ctaButton) {
+                ctaButton.addEventListener('click', function() {
+                    const target = document.querySelector('#wajib');
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
