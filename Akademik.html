@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistem Informasi Akademik</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'blue-900': '#1e3a8a',
+            'blue-800': '#1e40af',
+            'blue-700': '#1d4ed8',
+            'blue-600': '#2563eb',
+            'blue-500': '#3b82f6',
+            'blue-100': '#dbeafe',
+            'sky-50': '#f0f9ff',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .animate-fadeIn {
+      animation: fadeIn 0.3s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-600 text-white py-8 px-4 md:px-8 shadow-lg text-center">
+    <h1 class="text-3xl md:text-4xl font-bold">Sistem Informasi Akademik</h1>
+    <p class="mt-2 text-sm md:text-base opacity-90">Kelola informasi akademik sekolah dengan mudah</p>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container mx-auto p-4 md:p-6">
+    <div class="flex flex-col lg:flex-row gap-6">
+      
+      <!-- Sidebar Tabs Vertikal -->
+      <nav class="w-full lg:w-1/4 space-y-2">
+        <button onclick="changeTab('kurikulum')" class="tab-button w-full text-left px-4 py-3 rounded-lg transition-all duration-200 bg-blue-100 text-blue-800 font-medium shadow-inner">Kurikulum</button>
+        <button onclick="changeTab('jadwal')" class="tab-button w-full text-left px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 text-gray-700">Jadwal Pelajaran</button>
+        <button onclick="changeTab('ekstrakurikuler')" class="tab-button w-full text-left px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 text-gray-700">Ekstrakurikuler</button>
+        <button onclick="changeTab('ujian')" class="tab-button w-full text-left px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 text-gray-700">Info Ujian</button>
+        <button onclick="changeTab('mata-pelajaran')" class="tab-button w-full text-left px-4 py-3 rounded-lg transition-all duration-200 hover:bg-blue-50 text-gray-700">Daftar Mata Pelajaran</button>
+      </nav>
+
+      <!-- Main Content -->
+      <main class="w-full lg:w-3/4">
+        <div id="content" class="bg-white shadow-xl rounded-xl p-6 animate-fadeIn transition-all duration-300">
+          <!-- Content will be injected by JS -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-10 text-center text-sm text-gray-500 py-4 bg-blue-50 border-t border-blue-100">
+    &copy; 2025 Sistem Informasi Akademik | All Rights Reserved
+  </footer>
+
+ <script>
+  // Data ekstrakurikuler berdasarkan kategori
+  const ekskulData = {
+    Organisasi: [
+      { nama: 'Orbit (Organisasi Teknologi Informasi Dasar)', deskripsi: 'Ekskul yang fokus pada pengembangan keterampilan dasar teknologi informasi, jaringan, dan pemrograman.', ketua: '...' },
+      { nama: 'Elco (Komunitas Elektronik)', deskripsi: 'Ekskul yang fokus pada pengembangan keterampilan elektronika, rangkaian listrik, dan inovasi teknologi.', ketua: '...' },
+      { nama: 'E-Rom (Ekskul Robotik Otomasi Industri)', deskripsi: 'Pembelajaran pengembangan robot dan pemrograman mikrokontroler.', ketua: 'Ahmad Fauzan' },
+      { nama: 'Irma (Ikatan Remaja Masjid)', deskripsi: 'Ekskul kerohanian Islam yang fokus pada pembinaan iman, ibadah, dan kegiatan keagamaan.', ketua: '...' },
+      { nama: 'Robotika', deskripsi: 'Pembelajaran pengembangan robot dan pemrograman mikrokontroler.', ketua: 'Ahmad Fauzan' },
+      { nama: 'Icon (Jurnalistik Sekolah)', deskripsi: 'Ekskul yang mengembangkan keterampilan menulis, desain media, serta dokumentasi kegiatan sekolah.', ketua: '...' }
+    ],
+    Kepemimpinan: [
+      { nama: 'OSIS', deskripsi: 'Organisasi siswa intra sekolah yang melatih kepemimpinan, tanggung jawab, dan manajemen kegiatan sekolah.', ketua: '...' },
+      { nama: 'PMR (Palang Merah Remaja)', deskripsi: 'Mempelajari dasar-dasar pertolongan pertama, kesehatan, serta kepedulian sosial.', ketua: '...' },
+      { nama: 'Paskibra', deskripsi: 'Pelatihan kedisiplinan, baris-berbaris, serta pengibaran bendera dalam upacara sekolah dan acara resmi.', ketua: '...' },
+      { nama: 'Pramuka', deskripsi: 'Kegiatan kepramukaan yang menumbuhkan kemandirian, kepemimpinan, dan keterampilan lapangan.', ketua: '...' }
+    ],
+    Olahraga: [
+      { nama: 'Futsal', deskripsi: 'Pembinaan keterampilan olahraga futsal, melatih kekompakan, teknik, dan sportivitas dalam tim.', ketua: '...' },
+      { nama: 'Basket', deskripsi: 'Pengembangan kemampuan bermain bola basket, meningkatkan strategi, stamina, serta kerja sama tim.', ketua: '...' },
+      { nama: 'Badminton', deskripsi: 'Latihan keterampilan bulu tangkis, meningkatkan stamina, ketangkasan, dan mental bertanding.', ketua: '...' },
+      { nama: 'Pelatihan Silat', deskripsi: 'Seni bela diri pencak silat untuk meningkatkan ketahanan fisik, mental, dan kedisiplinan.', ketua: '...' },
+      { nama: 'Karate', deskripsi: 'Ekskul seni bela diri Jepang yang tekanan pada kekuatan, teknik, dan pengendalian diri.', ketua: '...' },
+      { nama: 'Muaythai', deskripsi: 'Ekskul bela diri asal Thailand yang melatih fisik, teknik tendangan, pukulan, serta disiplin diri.', ketua: '...' }
+    ],
+    Seni: [
+      { nama: 'Tari', deskripsi: 'Wadah kreativitas siswa dalam seni tari tradisional maupun modern untuk melestarikan budaya.', ketua: '...' },
+      { nama: 'Harpa (Harmoni Paduan Angklung)', deskripsi: 'Ekskul seni musik angklung untuk melestarikan budaya Sunda dan melatih harmonisasi dalam tim.', ketua: '...' },
+      { nama: 'Paduan Suara', deskripsi: 'Pengembangan keterampilan bernyanyi dalam kelompok, melatih harmonisasi dan teknik vokal.', ketua: '...' },
+      { nama: 'Modern Dance', deskripsi: 'Wadah bagi siswa untuk mengekspresikan diri melalui tarian modern dan koreografi kreatif.', ketua: '...' },
+      { nama: 'Teater', deskripsi: 'Pengembangan bakat seni peran dan produksi drama.', ketua: 'Putri Maya' },
+      { nama: 'Band Sekolah', deskripsi: 'Eksplorasi musik dan pertunjukan live di acara sekolah.', ketua: 'Nanda Arya' }
+    ],
+    Bahasa: [
+      { nama: 'English Club', deskripsi: 'Wadah untuk mengasah kemampuan bahasa Inggris melalui berbicara, menulis, dan berbagai kompetisi.', ketua: '...' },
+      { nama: 'NHK (Nihon Houkago Kurabu)', deskripsi: 'Ekskul bahasa Jepang yang mempelajari percakapan, budaya, dan tulisan Jepang.', ketua: '...' },
+      { nama: 'Debat Bahasa Inggris', deskripsi: 'Latihan debat dan public speaking dalam bahasa inggris.', ketua: 'Sarah Putri' }
+    ]
+  };
+
+  // Fungsi untuk merender daftar ekstrakurikuler berdasarkan kategori
+  function renderEkskulList(kategori) {
+    const ekskuls = ekskulData[kategori] || [];
+    return `
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+        ${ekskuls.map(ekskul => `
+          <div class="bg-white rounded-lg shadow-sm border-l-4 border-blue-500 p-4 hover:bg-blue-50 transition-all">
+            <h4 class="text-md font-medium text-blue-800">${ekskul.nama}</h4>
+            <p class="text-sm text-gray-600 mt-1">${ekskul.deskripsi}</p>
+            <div class="mt-2 text-xs text-gray-500">Ketua: ${ekskul.ketua}</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  // Fungsi saat tombol kategori diklik
+  function changeEkskulCategory(kategori) {
+    document.querySelectorAll('.ekskul-category-btn').forEach(btn => {
+      btn.classList.remove('bg-blue-100', 'text-blue-800', 'font-bold', 'border-blue-500');
+      btn.classList.add('bg-white', 'text-gray-700', 'border-gray-300');
+    });
+    const activeBtn = document.querySelector(`[onclick="changeEkskulCategory('${kategori}')"]`);
+    if (activeBtn) {
+      activeBtn.classList.remove('bg-white', 'text-gray-700', 'border-gray-300');
+      activeBtn.classList.add('bg-blue-100', 'text-blue-800', 'font-bold', 'border-blue-500');
+    }
+
+    document.getElementById('ekskul-content').innerHTML = `
+      <h3 class="text-xl font-semibold text-blue-800 mb-4">Ekstrakurikuler ${kategori}</h3>
+      ${renderEkskulList(kategori)}
+    `;
+  }
+
+  // === KONTEN UTAMA ===
+  const contents = {
+    kurikulum: `
+      <div class="space-y-6">
+        <h2 class="text-2xl font-semibold text-blue-800">Struktur Kurikulum Merdeka SMK/MAK</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full table-auto text-left text-sm border-collapse">
+            <thead class="bg-blue-50">
+              <tr>
+                <th class="px-4 py-3 font-medium text-blue-800 border-b border-blue-200">Komponen</th>
+                <th class="px-4 py-3 font-medium text-blue-800 border-b border-blue-200">Keterangan</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-blue-100">
+              <tr>
+                <td class="px-4 py-4 font-medium text-gray-800 align-top bg-sky-50">Kelompok Mata Pelajaran</td>
+                <td class="px-4 py-4 text-gray-700 align-top">
+                  Dibagi menjadi dua kelompok: Umum & Kejuruan.
+                  <div class="mt-2 text-xs text-gray-500 space-x-2">
+                    <span class="inline-block px-2 py-0.5 bg-gray-200 rounded">Sistem Informasi Kurikulum Nasional</span>
+                    <span class="inline-block px-2 py-0.5 bg-gray-200 rounded">detikcom</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-medium text-gray-800 align-top bg-sky-50">Pembelajaran Intrakurikuler</td>
+                <td class="px-4 py-4 text-gray-700 align-top">
+                  Ini adalah pelajaran wajib di kelas, baik umum maupun kejuruan.
+                  <div class="mt-2 text-xs text-gray-500 space-x-2">
+                    <span class="inline-block px-2 py-0.5 bg-gray-200 rounded">detikcom</span>
+                    <span class="inline-block px-2 py-0.5 bg-gray-200 rounded">Sistem Informasi Kurikulum Nasional</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-medium text-gray-800 align-top bg-sky-50">Projek Penguatan Profil Pelajar Pancasila (P5)</td>
+                <td class="px-4 py-4 text-gray-700 align-top">
+                  Sekitar 30% dari total jam pelajaran per tahun dialokasikan untuk proyek ini. Tujuannya untuk mengembangkan karakter, soft skills, dan kolaborasi dengan dunia nyata (termasuk dunia industri).
+                  <div class="mt-2 text-xs text-gray-500 space-x-2">
+                    <span class="inline-block px-2 py-0.5 bg-gray-200 rounded">detikcom</span>
+                    <span class="inline-block px-2 py-0.5 bg-gray-200 rounded">Kompas Regional</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-medium text-gray-800 align-top bg-sky-50">Magang / PKL (Praktik Kerja Lapangan)</td>
+                <td class="px-4 py-4 text-gray-700 align-top">
+                  Lebih diperkuat. Lama magang diperpanjang dibanding kurikulum lama (misalnya dari 2-3 bulan ke sekitar 6 bulan) agar pengalaman di dunia industri makin nyata.
+                  <div class="mt-2 text-xs text-gray-500">
+                    <span class="inline-block px-2 py-0.5 bg-gray-200 rounded">Kompas Regional</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-4 py-4 font-medium text-gray-800 align-top bg-sky-50">Kontekstual & Fleksibel</td>
+                <td class="px-4 py-4 text-gray-700 align-top">
+                  Materi umum seperti Matematika, Bahasa Inggris, dan lainnya disesuaikan konteks kejuruan siswa. Sekolah bisa menyesuaikan alokasi waktu dan metode belajar sesuai kebutuhan.
+                  <div class="mt-2 text-xs text-gray-500 space-x-2">
+                    <span class="inline-block px-2 py-0.5 bg-gray-200 rounded">Melintas</span>
+                    <span class="inline-block px-2 py-0.5 bg-gray-200 rounded">detikcom</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        ${DokumenSection()}
+      </div>
+    `,
+    jadwal: `
+      <div class="space-y-6">
+        <h2 class="text-2xl font-semibold text-blue-800">Pilih Jurusan</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          ${generateJadwalButtons()}
+        </div>
+        <div id="kelas-jadwal-container" class="mt-6 hidden">
+          <h3 class="text-xl font-medium text-blue-700 mb-4">Pilih Kelas untuk Jurusan <span id="selected-jurusan-jadwal" class="font-bold"></span></h3>
+          <div class="flex space-x-4">
+            <button onclick="changeKelasJurusan(document.getElementById('selected-jurusan-jadwal').textContent, 'X')" class="kelas-button bg-white hover:bg-blue-50 text-blue-800 font-medium py-2 px-4 rounded-lg shadow transition-all duration-200 border border-blue-200">Kelas X</button>
+            <button onclick="changeKelasJurusan(document.getElementById('selected-jurusan-jadwal').textContent, 'XI')" class="kelas-button bg-white hover:bg-blue-50 text-blue-800 font-medium py-2 px-4 rounded-lg shadow transition-all duration-200 border border-blue-200">Kelas XI</button>
+            <button onclick="changeKelasJurusan(document.getElementById('selected-jurusan-jadwal').textContent, 'XII')" class="kelas-button bg-white hover:bg-blue-50 text-blue-800 font-medium py-2 px-4 rounded-lg shadow transition-all duration-200 border border-blue-200">Kelas XII</button>
+          </div>
+        </div>
+        <div id="jadwal-content" class="mt-8 pt-6 border-t border-gray-200">
+          <p class="text-gray-500 italic">Silakan pilih jurusan, lalu pilih kelas untuk melihat jadwal pelajaran.</p>
+        </div>
+      </div>
+    `,
+    ekstrakurikuler: `
+      <div class="space-y-6">
+        <h2 class="text-2xl font-semibold text-blue-800">Ekstrakurikuler</h2>
+        <div class="flex flex-wrap gap-2">
+          ${Object.keys(ekskulData).map(kat => `
+            <button 
+              onclick="changeEkskulCategory('${kat}')" 
+              class="ekskul-category-btn bg-white text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 hover:bg-blue-50 hover:text-blue-800 transition-all"
+            >
+              ${kat}
+            </button>
+          `).join('')}
+        </div>
+        <div id="ekskul-content" class="mt-6 pt-4 border-t border-gray-200">
+          <p class="text-gray-500 italic">Silakan pilih kategori ekstrakurikuler di atas.</p>
+        </div>
+      </div>
+    `,
+    ujian: `
+      <div class="space-y-6">
+        <h2 class="text-2xl font-semibold text-blue-800">Info Ujian</h2>
+        ${Table(generateUjianData())}
+        ${DownloadSection()}
+      </div>
+    `,
+    'mata-pelajaran': `
+      <div class="space-y-6">
+        <h2 class="text-2xl font-semibold text-blue-800">Pilih Jurusan</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          ${generateJurusanButtons()}
+        </div>
+        <div id="kelas-container" class="mt-6 hidden">
+          <h3 class="text-xl font-medium text-blue-700 mb-4">Pilih Kelas untuk Jurusan <span id="selected-jurusan" class="font-bold"></span></h3>
+          <div class="flex space-x-4">
+            <button onclick="changeKelasJurusan(document.getElementById('selected-jurusan').textContent, 'X')" class="kelas-button bg-white hover:bg-blue-50 text-blue-800 font-medium py-2 px-4 rounded-lg shadow transition-all duration-200 border border-blue-200">Kelas X</button>
+            <button onclick="changeKelasJurusan(document.getElementById('selected-jurusan').textContent, 'XI')" class="kelas-button bg-white hover:bg-blue-50 text-blue-800 font-medium py-2 px-4 rounded-lg shadow transition-all duration-200 border border-blue-200">Kelas XI</button>
+            <button onclick="changeKelasJurusan(document.getElementById('selected-jurusan').textContent, 'XII')" class="kelas-button bg-white hover:bg-blue-50 text-blue-800 font-medium py-2 px-4 rounded-lg shadow transition-all duration-200 border border-blue-200">Kelas XII</button>
+          </div>
+        </div>
+        <div id="jurusan-content" class="mt-8 pt-6 border-t border-gray-200">
+          <p class="text-gray-500 italic">Silakan pilih jurusan, lalu pilih kelas untuk melihat daftar mata pelajaran.</p>
+        </div>
+      </div>
+    `
+  };
+
+  // --- Fungsi lain tetap sama ---
+  function generateJadwalButtons() {
+    const jurusanList = ['RPL', 'TKJ', 'DKV', 'TITL', 'TKTL', 'TAV', 'TOI'];
+    return jurusanList.map(jurusan => `
+      <button 
+        onclick="changeJadwalJurusan('${jurusan}')" 
+        class="jadwal-button bg-white hover:bg-blue-50 text-blue-800 font-medium py-3 px-4 rounded-lg shadow transition-all duration-200 border border-blue-200 hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300"
+      >
+        ${jurusan}
+      </button>
+    `).join('');
+  }
+
+  function changeJadwalJurusan(jurusan) {
+    document.querySelectorAll('.jadwal-button').forEach(btn => {
+      btn.classList.remove('bg-blue-100', 'border-blue-500', 'font-bold');
+      btn.classList.add('bg-white', 'border-blue-200');
+    });
+    const activeButton = document.querySelector(`[onclick="changeJadwalJurusan('${jurusan}')"]`);
+    if (activeButton) {
+      activeButton.classList.remove('bg-white', 'border-blue-200');
+      activeButton.classList.add('bg-blue-100', 'border-blue-500', 'font-bold');
+    }
+    document.getElementById('selected-jurusan-jadwal').textContent = jurusan;
+    document.getElementById('kelas-jadwal-container').classList.remove('hidden');
+    document.getElementById('jadwal-content').innerHTML = `<p class="text-gray-500 italic">Silakan pilih kelas untuk melihat jadwal pelajaran jurusan ${jurusan}.</p>`;
+  }
+
+  function generateJurusanButtons() {
+    const jurusanList = ['RPL', 'TKJ', 'DKV', 'TITL', 'TKTL', 'TAV', 'TOI'];
+    return jurusanList.map(jurusan => `
+      <button 
+        onclick="changeJurusan('${jurusan}')" 
+        class="jurusan-button bg-white hover:bg-blue-50 text-blue-800 font-medium py-3 px-4 rounded-lg shadow transition-all duration-200 border border-blue-200 hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-300"
+      >
+        ${jurusan}
+      </button>
+    `).join('');
+  }
+
+  function changeJurusan(jurusan) {
+    document.querySelectorAll('.jurusan-button').forEach(btn => {
+      btn.classList.remove('bg-blue-100', 'border-blue-500', 'font-bold');
+      btn.classList.add('bg-white', 'border-blue-200');
+    });
+    const activeButton = document.querySelector(`[onclick="changeJurusan('${jurusan}')"]`);
+    if (activeButton) {
+      activeButton.classList.remove('bg-white', 'border-blue-200');
+      activeButton.classList.add('bg-blue-100', 'border-blue-500', 'font-bold');
+    }
+    document.getElementById('selected-jurusan').textContent = jurusan;
+    document.getElementById('kelas-container').classList.remove('hidden');
+    document.getElementById('jurusan-content').innerHTML = `<p class="text-gray-500 italic">Silakan pilih kelas untuk melihat daftar mata pelajaran jurusan ${jurusan}.</p>`;
+  }
+
+  function changeKelasJurusan(jurusan, kelas) {
+    document.querySelectorAll('.kelas-button').forEach(btn => {
+      btn.classList.remove('bg-blue-100', 'border-blue-500', 'font-bold');
+      btn.classList.add('bg-white', 'border-blue-200');
+    });
+    const activeButtons = document.querySelectorAll(`[onclick="changeKelasJurusan('${jurusan}', '${kelas}')"]`);
+    activeButtons.forEach(btn => {
+      btn.classList.remove('bg-white', 'border-blue-200');
+      btn.classList.add('bg-blue-100', 'border-blue-500', 'font-bold');
+    });
+
+    const currentTab = document.querySelector('.tab-button.bg-blue-100')?.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+    if (currentTab === 'jadwal') {
+      document.getElementById('jadwal-content').innerHTML = `
+        <h3 class="text-xl font-semibold text-blue-700 mb-4">Jadwal Pelajaran Jurusan ${jurusan} Kelas ${kelas}</h3>
+        ${generateJadwalByJurusanKelas(jurusan, kelas)}
+      `;
+    } else if (currentTab === 'mata-pelajaran') {
+      document.getElementById('jurusan-content').innerHTML = `
+        <h3 class="text-xl font-semibold text-blue-700 mb-4">Mata Pelajaran Jurusan ${jurusan} Kelas ${kelas}</h3>
+        ${generateMataPelajaranByJurusanKelas(jurusan, kelas)}
+      `;
+    }
+  }
+
+  function generateJadwalByJurusanKelas(jurusan, kelas) {
+    return `
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+        <p class="text-sm text-yellow-800">
+          <strong>Placeholder:</strong> Jadwal pelajaran untuk jurusan <strong>${jurusan}</strong> kelas <strong>${kelas}</strong> akan muncul di sini.
+        </p>
+        <p class="text-xs text-yellow-700 mt-2">
+          Silakan berikan jadwal pelajaran untuk jurusan dan kelas ini.
+        </p>
+      </div>
+    `;
+  }
+
+  function generateMataPelajaranByJurusanKelas(jurusan, kelas) {
+    if (jurusan === 'RPL' && kelas === 'XI') {
+      const rplSubjects = [
+        { nama: 'KK1 (Basis Data)', guru: 'Moh Ali Aljauhari, S.Kom, Gir' },
+        { nama: 'KK2 (Pemrograman Berbasis Teks, Grafis dan Multimedia)', guru: 'Rina Pujiati, S.ST., Gr.' },
+        { nama: 'KK3 (Pemrograman Web)', guru: 'Hana Zainab Mukarromah, S.ST., Gr & Arne Herliany, S.Si, M.Pd.' },
+        { nama: 'KK4 (Pemrograman Perangkat Bergerak)', guru: 'Ilham Zhafir Fadilah, S.Kom' },
+        { nama: 'Mapel Pilihan RPL', guru: 'Arief Setyo Jatmiko, S.Pd., M.T., Gr.' },
+        { nama: 'PKK (Projek Kreatif dan Kewirausahaan)', guru: 'Amalia Utami, S.Pd.' },
+        { nama: 'MTK (Matematika)', guru: 'Susneti Martiani, M.Pd., Gr.' },
+        { nama: 'Sejarah', guru: 'Diki Hidayat, S.Pd.' },
+        { nama: 'Bahasa Sunda', guru: 'Rizal Firdaus, S.Pd.' },
+        { nama: 'Bahasa Indonesia', guru: 'Ivan Irianto, S.S.' },
+        { nama: 'Bahasa Inggris', guru: 'Febriana Widyastuti, S.Pd.' },
+        { nama: 'PP (Pendidikan Pancasila)', guru: 'Zico Oktorachman, S.Pd., Gr.' },
+        { nama: 'BK (Bimbingan Konseling)', guru: 'Dr. Ansor Saepudin, M.Ag.' },
+        { nama: 'Pend. Jasmani, Olahraga dan Kesehatan', guru: 'Rima Ratna Furi, S.Pd., M.M.' },
+        { nama: 'Pendidikan Agama Islam dan Budi Pekerti', guru: 'Isnaini Ma\'rifatun, S.Sos.I., Gr' }
+      ];
+      return `
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${rplSubjects.map(mp => `
+            <div class="bg-white rounded-lg shadow-sm border-l-4 border-blue-500 p-4 hover:bg-blue-50 transition-all">
+              <h3 class="text-lg font-medium text-blue-800">${mp.nama}</h3>
+              <div class="mt-2 text-sm text-gray-600">
+                <div>Guru: ${mp.guru}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+    else if (jurusan === 'TKJ' && kelas === 'XI') {
+      const tkjSubjects = [
+        { nama: 'KK1 (Keamanan Jaringan)', guru: 'Pa Yofi (YOF)' },
+        { nama: 'KK2 (Administrasi Sistem Jaringan)', guru: 'Pa Nono (NON)' },
+        { nama: 'KK3 (Teknologi Jaringan Kabel dan Nirkabel)', guru: 'Pa Yofi (YOF)' },
+        { nama: 'KK4 (Pemasangan dan Konfigurasi Perangkat Jaringan)', guru: 'Pa Taopik (TAO)' },
+        { nama: 'KK5 (Perancangan dan Pengalamatan Jaringan)', guru: 'Pa Yofi (YOF)' },
+        { nama: 'MP (Mata Pelajaran Pilihan TKJ)', guru: 'Bu Yuyun (YUN)' },
+        { nama: 'Bahasa Indonesia', guru: 'Nurulhayat (NRH)' },
+        { nama: 'PKK (Projek Kreatif dan Kewirausahaan)', guru: 'Pa Iman Firmansyah (IMN)' },
+        { nama: 'PAI (Pendidikan Agama Islam)', guru: 'Bu Hani (HAN)' },
+        { nama: 'BK (Bimbingan Konseling)', guru: 'Bu Lulu (LUL)' },
+        { nama: 'Bahasa Inggris', guru: 'Nurul Komala Canra (KOM)' },
+        { nama: 'PP (Pendidikan Pancasila)', guru: 'Pa Zico (ZIC)' },
+        { nama: 'Pend. Jasmani, Olahraga dan Kesehatan', guru: 'Bu Rima (RIM)' },
+        { nama: 'Bahasa Sunda', guru: 'Pa Rizal Firdaus (FIR)' },
+        { nama: 'Matematika', guru: 'Pa Ihsan (IHS)' },
+        { nama: 'Sejarah', guru: 'Pa Diki (DIK)' }
+      ];
+      return `
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${tkjSubjects.map(mp => `
+            <div class="bg-white rounded-lg shadow-sm border-l-4 border-blue-500 p-4 hover:bg-blue-50 transition-all">
+              <h3 class="text-lg font-medium text-blue-800">${mp.nama}</h3>
+              <div class="mt-2 text-sm text-gray-600">
+                <div>Guru: ${mp.guru}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+    else if (jurusan === 'TOI' && kelas === 'XI') {
+      const toiSubjects = [
+        { nama: 'Mata Pelajaran Pilihan TOI', guru: 'Pak Dudin' },
+        { nama: 'Sistem Kontrol Elektronik', guru: 'Pak Paojan' },
+        { nama: 'Paranti Sensor Aktuator', guru: 'Pak Erwin' },
+        { nama: 'Sistem Kontrol Pneumatik', guru: 'Bu Lilis' },
+        { nama: 'Sistem Kontrol Terprogram', guru: 'Bu Nur' }
+      ];
+      return `
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${toiSubjects.map(mp => `
+            <div class="bg-white rounded-lg shadow-sm border-l-4 border-blue-500 p-4 hover:bg-blue-50 transition-all">
+              <h3 class="text-lg font-medium text-blue-800">${mp.nama}</h3>
+              <div class="mt-2 text-sm text-gray-600">
+                <div>Guru: ${mp.guru}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+    else if (jurusan === 'DKV' && kelas === 'XI') {
+      const dkvSubjects = [
+        { nama: 'PP (Pendidikan Pancasila)', guru: 'Pak Zico' },
+        { nama: 'BK (Bimbingan Konseling)', guru: 'Bu Shela' },
+        { nama: 'MTK (Matematika)', guru: 'Bu Susneti' },
+        { nama: 'PKK (Projek Kreatif dan Kewirausahaan)', guru: 'Bu Amel' },
+        { nama: 'KK1', guru: 'Bu Selfa' },
+        { nama: 'MP (Mata Pelajaran Pilihan DKV)', guru: 'Bu Rani' },
+        { nama: 'Bahasa Indonesia', guru: 'Pak Ivan' },
+        { nama: 'Sejarah', guru: 'Pak Diki' },
+        { nama: 'Bahasa Sunda', guru: 'Pak Rizal' },
+        { nama: 'KK2', guru: 'Pak Rida' },
+        { nama: 'KK3', guru: 'Bu Tinceu' },
+        { nama: 'PAI (Pendidikan Agama Islam)', guru: 'Bu Hani' },
+        { nama: 'Bahasa Inggris', guru: 'Miss Nurul' },
+        { nama: 'PJOK (Pendidikan Jasmani, Olahraga, dan Kesehatan)', guru: 'Pak Riza' }
+      ];
+      return `
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          ${dkvSubjects.map(mp => `
+            <div class="bg-white rounded-lg shadow-sm border-l-4 border-blue-500 p-4 hover:bg-blue-50 transition-all">
+              <h3 class="text-lg font-medium text-blue-800">${mp.nama}</h3>
+              <div class="mt-2 text-sm text-gray-600">
+                <div>Guru: ${mp.guru}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+    else {
+      return `
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+          <p class="text-sm text-yellow-800">
+            <strong>Info:</strong> Daftar mata pelajaran untuk jurusan <strong>${jurusan}</strong> kelas <strong>${kelas}</strong> belum tersedia.
+          </p>
+          <p class="text-xs text-yellow-700 mt-2">
+            Silakan hubungi admin atau tunggu pembaruan.
+          </p>
+        </div>
+      `;
+    }
+  }
+
+  function changeTab(tabId) {
+    document.querySelectorAll('.tab-button').forEach(btn => {
+      btn.classList.remove('bg-blue-100', 'text-blue-800', 'font-medium', 'shadow-inner');
+      btn.classList.add('hover:bg-blue-50', 'text-gray-700');
+    });
+    const activeButton = document.querySelector(`[onclick="changeTab('${tabId}')"]`);
+    activeButton.classList.remove('hover:bg-blue-50', 'text-gray-700');
+    activeButton.classList.add('bg-blue-100', 'text-blue-800', 'font-medium', 'shadow-inner');
+    document.getElementById('content').innerHTML = contents[tabId];
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    changeTab('kurikulum');
+  });
+
+  function Card(title, description) {
+    return `
+      <div class="bg-sky-50 p-4 rounded-lg border-l-4 border-blue-500 shadow hover:shadow-md transition-shadow">
+        <h3 class="font-medium text-blue-800">${title}</h3>
+        <p class="text-sm text-gray-600 mt-1">${description}</p>
+      </div>
+    `;
+  }
+
+  function DokumenSection() {
+    return `
+      <div class="mt-6">
+        <h3 class="font-medium text-gray-700 mb-2">Dokumen Terkait:</h3>
+        <ul class="list-disc pl-5 space-y-1 text-sm text-blue-600">
+          <li><a href="#" class="hover:underline">Silabus Matematika Kelas X</a></li>
+          <li><a href="#" class="hover:underline">Program Tahunan Bahasa Inggris</a></li>
+          <li><a href="#" class="hover:underline">Rencana Pelaksanaan Pembelajaran (RPP)</a></li>
+        </ul>
+      </div>
+    `;
+  }
+
+  function Table(data) {
+    let rows = '';
+    data.forEach(ujian => {
+      const statusClass = ujian.status === 'Akan Datang'
+        ? 'bg-yellow-100 text-yellow-800'
+        : ujian.status === 'Berlangsung'
+        ? 'bg-green-100 text-green-800'
+        : 'bg-gray-100 text-gray-800';
+      rows += `
+        <tr>
+          <td class="px-4 py-2">${ujian.jenis}</td>
+          <td class="px-4 py-2">${ujian.tanggal}</td>
+          <td class="px-4 py-2">${ujian.kelas}</td>
+          <td class="px-4 py-2">
+            <span class="inline-block px-2 py-1 text-xs rounded-full ${statusClass}">
+              ${ujian.status}
+            </span>
+          </td>
+        </tr>
+      `;
+    });
+    return `
+      <div class="overflow-x-auto">
+        <table class="w-full table-auto text-left text-sm">
+          <thead class="bg-blue-50">
+            <tr>
+              <th class="px-4 py-2">Jenis Ujian</th>
+              <th class="px-4 py-2">Tanggal</th>
+              <th class="px-4 py-2">Kelas</th>
+              <th class="px-4 py-2">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-blue-100">
+            ${rows}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function DownloadSection() {
+    return `
+      <div class="mt-6">
+        <h3 class="font-medium text-gray-700 mb-2">Download Jadwal Ujian</h3>
+        <ul class="space-y-1">
+          <li>
+            <a href="#" class="text-blue-600 hover:underline flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Jadwal UTS Ganjil 2024.pdf
+            </a>
+          </li>
+          <li>
+            <a href="#" class="text-blue-600 hover:underline flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Jadwal UAS Ganjil 2024.pdf
+            </a>
+          </li>
+        </ul>
+      </div>
+    `;
+  }
+
+  function generateUjianData() {
+    return [
+      { jenis: 'UTS Ganjil', tanggal: '15 - 20 Oktober 2024', kelas: 'X, XI, XII', status: 'Akan Datang' },
+      { jenis: 'UAS Ganjil', tanggal: '15 - 20 Desember 2024', kelas: 'X, XI, XII', status: 'Belum Dimulai' },
+      { jenis: 'UTS Genap', tanggal: '10 - 15 Maret 2025', kelas: 'X, XI, XII', status: 'Belum Dimulai' },
+      { jenis: 'UAS Genap', tanggal: '10 - 15 Mei 2025', kelas: 'X, XI, XII', status: 'Belum Dimulai' },
+    ];
+  }
+</script>
+
+</body>
+</html>
