@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMKN 4 Bandung - Jurusan dan Testimoni Alumni</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .jurusan-card {
+            transition: all 0.3s ease;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+        .jurusan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+        }
+        .jurusan-card .icon-container {
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .jurusan-card:hover .icon-container {
+            transform: scale(1.1);
+        }
+        .testimonial-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            position: relative;
+        }
+        .testimonial-item.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        .filter-btn.active {
+            background-color: #3B82F6;
+            color: white;
+        }
+        .filter-btn:hover:not(.active) {
+            background-color: #EFF6FF;
+        }
+        .outfit-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .outfit-badge i {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md p-4 md:p-6 shadow-lg z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <img src="https://placehold.co/48x48/2563eb/ffffff?text=SMK" alt="Logo SMKN 4 Bandung" class="w-12 h-12 rounded-xl shadow-lg">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">SMKN 4 BANDUNG</h2>
+                    <p class="text-xs md:text-sm text-gray-600">Sekolah Menengah Kejuruan Negeri 4 Bandung</p>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Beranda</a>
+                <a href="#jurusan" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Jurusan</a>
+                <a href="#testimoni" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Testimoni</a>
+                <a href="#kontak" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Kontak</a>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button id="menuToggle" class="md:hidden text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            
+            <!-- Login Button -->
+            <button class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300">Login</button>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobileMenu" class="md:hidden hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+            <div class="px-4 py-4 space-y-4">
+                <a href="#home" class="block text-gray-700 hover:text-blue-600 font-medium">Beranda</a>
+                <a href="#jurusan" class="block text-gray-700 hover:text-blue-600 font-medium">Jurusan</a>
+                <a href="#testimoni" class="block text-gray-700 hover:text-blue-600 font-medium">Testimoni</a>
+                <a href="#kontak" class="block text-gray-700 hover:text-blue-600 font-medium">Kontak</a>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    menuToggle.innerHTML = mobileMenu.classList.contains('hidden') ? 
+                        '<i class="fas fa-bars text-xl"></i>' : 
+                        '<i class="fas fa-times text-xl"></i>';
+                });
+            }
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const nav = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    nav.style.background = 'rgba(255, 255, 255, 0.98)';
+                    nav.style.boxShadow = '0 5px 25px rgba(0,0,0,0.15)';
+                } else {
+                    nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                    nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                }
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('#mobileMenu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuToggle.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+                });
+            });
+        });
+    </script>
+
+    <!-- Hero Section -->
+    <section id="home" class="bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 text-white py-20 md:py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">SMKN 4 BANDUNG</h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto leading-relaxed">Sekolah Menengah Kejuruan Negeri yang menghasilkan lulusan kompeten, inovatif, dan siap bersaing di dunia kerja</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#jurusan" class="bg-white text-blue-600 px-8 py-4 rounded-full font-semibold hover:bg-gray-100 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <span class="flex items-center">
+                        <i class="fas fa-graduation-cap mr-2"></i>
+                        Jelajahi Jurusan
+                    </span>
+                </a>
+                <a href="#testimoni" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    <span class="flex items-center">
+                        <i class="fas fa-comments mr-2"></i>
+                        Baca Testimoni
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-gray-50 to-transparent"></div>
+    </section>
+
+    <!-- Jurusan Section -->
+    <section id="jurusan" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Program Keahlian Unggulan</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Kami menyediakan berbagai program keahlian yang disesuaikan dengan kebutuhan industri masa kini dan masa depan.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- RPL -->
+                <div class="jurusan-card bg-white overflow-hidden group">
+                    <div class="relative">
+                        <div class="icon-container bg-blue-50">
+                            <i class="fas fa-laptop-code text-6xl text-blue-600 group-hover:text-blue-700"></i>
+                        </div>
+                        <div class="outfit-badge text-blue-600">
+                            <i class="fas fa-tshirt"></i> Kemeja Biru + Celana Hitam
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-gray-800">Rekayasa Perangkat Lunak</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Mempelajari pembuatan, pemeliharaan, dan manajemen perangkat lunak dengan teknologi terkini.</p>
+                        <button onclick="filterTestimoni('rpl')" class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center">
+                            <span>Lihat Testimoni</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- TAV -->
+                <div class="jurusan-card bg-white overflow-hidden group">
+                    <div class="relative">
+                        <div class="icon-container bg-red-50">
+                            <i class="fas fa-tv text-6xl text-red-600 group-hover:text-red-700"></i>
+                        </div>
+                        <div class="outfit-badge text-red-600">
+                            <i class="fas fa-tshirt"></i> Kemeja Merah + Celana Hitam
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-gray-800">Teknik Audio Video</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Mempelajari perakitan, perbaikan, dan perawatan perangkat audio video profesional.</p>
+                        <button onclick="filterTestimoni('tav')" class="w-full bg-red-600 text-white py-3 rounded-lg font-medium hover:bg-red-700 transition duration-300 flex items-center justify-center">
+                            <span>Lihat Testimoni</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- TOI -->
+                <div class="jurusan-card bg-white overflow-hidden group">
+                    <div class="relative">
+                        <div class="icon-container bg-green-50">
+                            <i class="fas fa-industry text-6xl text-green-600 group-hover:text-green-700"></i>
+                        </div>
+                        <div class="outfit-badge text-green-600">
+                            <i class="fas fa-hard-hat"></i> Seragam Lapangan Hijau
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-gray-800">Teknik Otomasi Industri</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Mempelajari sistem kontrol otomatis untuk aplikasi industri modern yang efisien.</p>
+                        <button onclick="filterTestimoni('toi')" class="w-full bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700 transition duration-300 flex items-center justify-center">
+                            <span>Lihat Testimoni</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- DKV -->
+                <div class="jurusan-card bg-white overflow-hidden group">
+                    <div class="relative">
+                        <div class="icon-container bg-purple-50">
+                            <i class="fas fa-paint-brush text-6xl text-purple-600 group-hover:text-purple-700"></i>
+                        </div>
+                        <div class="outfit-badge text-purple-600">
+                            <i class="fas fa-palette"></i> Kemeja Ungu + Celana Hitam
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-gray-800">Desain Komunikasi Visual</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Mempelajari konsep komunikasi dan ungkapan kreatif melalui media visual yang menarik.</p>
+                        <button onclick="filterTestimoni('dkv')" class="w-full bg-purple-600 text-white py-3 rounded-lg font-medium hover:bg-purple-700 transition duration-300 flex items-center justify-center">
+                            <span>Lihat Testimoni</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- TKTL -->
+                <div class="jurusan-card bg-white overflow-hidden group">
+                    <div class="relative">
+                        <div class="icon-container bg-yellow-50">
+                            <i class="fas fa-bolt text-6xl text-yellow-600 group-hover:text-yellow-700"></i>
+                        </div>
+                        <div class="outfit-badge text-yellow-600">
+                            <i class="fas fa-hard-hat"></i> Seragam Safety Kuning
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-gray-800">Teknik Ketengalistrikan</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Mempelajari instalasi dan tenaga listrik untuk berbagai aplikasi industri dan rumah tangga.</p>
+                        <button onclick="filterTestimoni('tktl')" class="w-full bg-yellow-600 text-white py-3 rounded-lg font-medium hover:bg-yellow-700 transition duration-300 flex items-center justify-center">
+                            <span>Lihat Testimoni</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- TITL -->
+                <div class="jurusan-card bg-white overflow-hidden group">
+                    <div class="relative">
+                        <div class="icon-container bg-indigo-50">
+                            <i class="fas fa-traffic-light text-6xl text-indigo-600 group-hover:text-indigo-700"></i>
+                        </div>
+                        <div class="outfit-badge text-indigo-600">
+                            <i class="fas fa-hard-hat"></i> Seragam Teknisi Biru Tua
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-gray-800">Teknik Instalasi Tenaga Listrik</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Mempelajari perencanaan dan instalasi sistem tenaga listrik yang aman dan efisien.</p>
+                        <button onclick="filterTestimoni('titl')" class="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition duration-300 flex items-center justify-center">
+                            <span>Lihat Testimoni</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- TKJ -->
+                <div class="jurusan-card bg-white overflow-hidden group">
+                    <div class="relative">
+                        <div class="icon-container bg-teal-50">
+                            <i class="fas fa-network-wired text-6xl text-teal-600 group-hover:text-teal-700"></i>
+                        </div>
+                        <div class="outfit-badge text-teal-600">
+                            <i class="fas fa-tshirt"></i> Kemeja Teal + Celana Hitam
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-gray-800">Teknik Komputer dan Jaringan</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Mempelajari perakitan komputer dan pembangunan jaringan komputer yang handal dan aman.</p>
+                        <button onclick="filterTestimoni('tkj')" class="w-full bg-teal-600 text-white py-3 rounded-lg font-medium hover:bg-teal-700 transition duration-300 flex items-center justify-center">
+                            <span>Lihat Testimoni</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- Teknik Elektronika -->
+                <div class="jurusan-card bg-white overflow-hidden group">
+                    <div class="relative">
+                        <div class="icon-container bg-pink-50">
+                            <i class="fas fa-microchip text-6xl text-pink-600 group-hover:text-pink-700"></i>
+                        </div>
+                        <div class="outfit-badge text-pink-600">
+                            <i class="fas fa-lab-coat"></i> Jas Lab Pink + Celana Hitam
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold mb-3 text-gray-800">Teknik Elektronika</h3>
+                        <p class="text-gray-600 mb-6 leading-relaxed">Mempelajari sistem elektronika dan perangkat digital untuk aplikasi industri dan konsumen.</p>
+                        <button onclick="filterTestimoni('elektronika')" class="w-full bg-pink-600 text-white py-3 rounded-lg font-medium hover:bg-pink-700 transition duration-300 flex items-center justify-center">
+                            <span>Lihat Testimoni</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimoni Section -->
+    <section id="testimoni" class="py-20 bg-gradient-to-b from-gray-50 to-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Testimoni Alumni</h2>
+                <p class="text-xl text-gray-600">Pengalaman langsung dari lulusan SMKN 4 Bandung yang telah sukses di dunia kerja</p>
+            </div>
+            <div class="flex justify-center mb-12">
+                <div class="inline-flex flex-wrap justify-center gap-2 md:gap-0" role="group">
+                    <button type="button" onclick="filterTestimoni('all')" class="filter-btn px-6 py-3 text-sm md:text-base font-medium rounded-l-lg md:rounded-l-lg rounded-r-none md:rounded-r-none">Semua</button>
+                    <button type="button" onclick="filterTestimoni('rpl')" class="filter-btn px-6 py-3 text-sm md:text-base font-medium rounded-none">RPL</button>
+                    <button type="button" onclick="filterTestimoni('tav')" class="filter-btn px-6 py-3 text-sm md:text-base font-medium rounded-none">TAV</button>
+                    <button type="button" onclick="filterTestimoni('toi')" class="filter-btn px-6 py-3 text-sm md:text-base font-medium rounded-none">TOI</button>
+                    <button type="button" onclick="filterTestimoni('dkv')" class="filter-btn px-6 py-3 text-sm md:text-base font-medium rounded-none">DKV</button>
+                    <button type="button" onclick="filterTestimoni('tktl')" class="filter-btn px-6 py-3 text-sm md:text-base font-medium rounded-none">TKTL</button>
+                    <button type="button" onclick="filterTestimoni('titl')" class="filter-btn px-6 py-3 text-sm md:text-base font-medium rounded-none">TITL</button>
+                    <button type="button" onclick="filterTestimoni('tkj')" class="filter-btn px-6 py-3 text-sm md:text-base font-medium rounded-none">TKJ</button>
+                    <button type="button" onclick="filterTestimoni('elektronika')" class="filter-btn px-6 py-3 text-sm md:text-base font-medium rounded-r-lg md:rounded-r-lg">Elektronika</button>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimoni Items -->
+                <div class="testimonial-item rpl bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Ahmad Rizki</h4>
+                            <p class="text-blue-600 font-medium">RPL - Angkatan 2018</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <p class="text-gray-700 leading-relaxed mb-6">"Belajar di jurusan RPL SMKN 4 Bandung memberikan saya fondasi yang kuat dalam pemrograman. Sekarang saya bekerja sebagai developer di perusahaan teknologi ternama."</p>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item tav bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-red-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Sinta Nurmalasari</h4>
+                            <p class="text-red-600 font-medium">TAV - Angkatan 2017</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <p class="text-gray-700 leading-relaxed mb-6">"Jurusan TAV memberikan saya keterampilan teknis yang sangat dibutuhkan di industri broadcasting. Sekarang saya bekerja di stasiun televisi nasional."</p>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item toi bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-green-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Budi Santoso</h4>
+                            <p class="text-green-600 font-medium">TOI - Angkatan 2016</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <p class="text-gray-700 leading-relaxed mb-6">"Pengetahuan yang saya dapat dari jurusan TOI sangat aplikatif di dunia industri. Saya sekarang bekerja sebagai teknisi di perusahaan manufaktur besar."</p>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item dkv bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-purple-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Dewi Anggraini</h4>
+                            <p class="text-purple-600 font-medium">DKV - Angkatan 2019</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <p class="text-gray-700 leading-relaxed mb-6">"Jurusan DKV mengajarkan saya tidak hanya teknik desain tetapi juga bagaimana berkomunikasi melalui visual. Sekarang saya bekerja sebagai UI/UX designer di startup digital."</p>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item tktl bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-yellow-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-yellow-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Joko Prasetyo</h4>
+                            <p class="text-yellow-600 font-medium">TKTL - Angkatan 2015</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <p class="text-gray-700 leading-relaxed mb-6">"Saya belajar banyak tentang sistem kelistrikan di jurusan TKTL. Sekarang saya memiliki usaha sendiri di bidang instalasi listrik rumah dan industri."</p>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item titl bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-indigo-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Rudi Hermawan</h4>
+                            <p class="text-indigo-600 font-medium">TITL - Angkatan 2018</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <p class="text-gray-700 leading-relaxed mb-6">"Pelajaran di jurusan TITL sangat praktis dan langsung dapat diaplikasikan di dunia kerja. Saya sekarang bekerja di perusahaan pembangkit listrik."</p>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item tkj bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-teal-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-teal-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Fajar Setiawan</h4>
+                            <p class="text-teal-600 font-medium">TKJ - Angkatan 2017</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <p class="text-gray-700 leading-relaxed mb-6">"Jurusan TKJ memberikan saya pemahaman mendalam tentang jaringan komputer. Sekarang saya bekerja sebagai network engineer di perusahaan IT."</p>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item elektronika bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-pink-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-pink-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Linda Susanti</h4>
+                            <p class="text-pink-600 font-medium">Elektronika - Angkatan 2019</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <p class="text-gray-700 leading-relaxed mb-6">"Saya sangat senang belajar di jurusan Teknik Elektronika. Pengetahuan yang saya dapat membantu saya dalam bekerja di perusahaan elektronik ternama."</p>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-item rpl bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                            <i class="fas fa-user text-blue-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-lg">Rina Wijaya</h4>
+                            <p class="text-blue-600 font-medium">RPL - Angkatan 2020</p>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <p class="text-gray-700 leading-relaxed mb-6">"Meski lulus di masa pandemi, keterampilan coding yang saya pelajari di RPL SMKN 4 Bandung membuat saya mudah mendapatkan pekerjaan sebagai web developer."</p>
+                        <div class="flex text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="kontak" class="bg-gray-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+                            <span class="text-white font-bold text-xl">SMK4</span>
+                        </div>
+                        <h3 class="text-2xl font-bold">SMKN 4 Bandung</h3>
+                    </div>
+                    <p class="mb-6 text-gray-300 leading-relaxed">Sekolah Menengah Kejuruan Negeri yang berfokus pada teknologi dan industri, menghasilkan lulusan yang siap bersaing di dunia kerja.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center hover:bg-blue-700 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-blue-400 rounded-full flex items-center justify-center hover:bg-blue-500 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-pink-600 rounded-full flex items-center justify-center hover:bg-pink-700 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Kontak Kami</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-4 mt-1">
+                                <i class="fas fa-map-marker-alt text-sm"></i>
+                            </div>
+                            <p class="text-gray-300">Jl. Kliningan No.6, Turangga, Kec. Lengkong, Kota Bandung, Jawa Barat 40264</p>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-phone text-sm"></i>
+                            </div>
+                            <p class="text-gray-300">(022) 7303746</p>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-envelope text-sm"></i>
+                            </div>
+                            <p class="text-gray-300">info@smkn4bandung.sch.id</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Link Terkait</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="#" class="flex items-center text-gray-300 hover:text-white transition">
+                                <i class="fas fa-external-link-alt mr-3 text-blue-400"></i>
+                                Dinas Pendidikan Jawa Barat
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center text-gray-300 hover:text-white transition">
+                                <i class="fas fa-external-link-alt mr-3 text-blue-400"></i>
+                                Kemendikbud
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center text-gray-300 hover:text-white transition">
+                                <i class="fas fa-external-link-alt mr-3 text-blue-400"></i>
+                                PPDB Jabar
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="flex items-center text-gray-300 hover:text-white transition">
+                                <i class="fas fa-external-link-alt mr-3 text-blue-400"></i>
+                                Bursa Kerja Khusus SMK
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2023 SMKN 4 Bandung. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle functionality (already implemented above)
+        // Navbar scroll effect (already implemented above)
+
+        // Testimoni filtering with animation
+        function filterTestimoni(jurusan) {
+            const testimonialItems = document.querySelectorAll('.testimonial-item');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            // Update active button
+            filterButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.trim().toLowerCase() === jurusan || 
+                    (btn.textContent.trim().toLowerCase() === 'semua' && jurusan === 'all')) {
+                    btn.classList.add('active');
+                }
+            });
+            // Hide all testimonials
+            testimonialItems.forEach(item => {
+                item.classList.remove('active');
+                setTimeout(() => {
+                    item.style.display = 'none';
+                }, 300); // Wait for animation to complete before hiding
+            });
+            // Show filtered testimonials with staggered animation
+            setTimeout(() => {
+                let delay = 0;
+                testimonialItems.forEach((item, index) => {
+                    if (jurusan === 'all' || item.classList.contains(jurusan)) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.classList.add('active');
+                        }, delay);
+                        delay += 100; // Stagger animation
+                    }
+                });
+            }, 300);
+            // Scroll to testimoni section when filtering
+            document.getElementById('testimoni').scrollIntoView({ behavior: 'smooth' });
+        }
+        // Initialize testimoni to show all
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set "Semua" button as active initially
+            document.querySelector('.filter-btn').classList.add('active');
+            // Show all testimonials with animation
+            const testimonialItems = document.querySelectorAll('.testimonial-item');
+            let delay = 0;
+            testimonialItems.forEach((item, index) => {
+                item.style.display = 'block';
+                setTimeout(() => {
+                    item.classList.add('active');
+                }, delay);
+                delay += 100;
+            });
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
