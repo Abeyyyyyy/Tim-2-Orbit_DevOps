@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMKN 4 Bandung</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    <!-- Video Background -->
+    <div class="fixed top-0 left-0 w-full h-full z-[-1] overflow-hidden">
+        <video autoplay muted loop playsinline class="min-w-full min-h-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 object-cover">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-a-girl-blowing-bubbles-1224-large.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <!-- Overlay for better text readability -->
+    <div class="fixed top-0 left-0 w-full h-full bg-gradient-to-r from-black/80 to-transparent z-[-1]"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md p-4 md:p-6 shadow-lg z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <img src="https://placehold.co/48x48/2563eb/ffffff?text=SMK" alt="Logo SMKN 4 Bandung" class="w-12 h-12 rounded-xl shadow-lg">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">SMKN 4 BANDUNG</h2>
+                    <p class="text-xs md:text-sm text-gray-600">Sekolah Menengah Kejuruan Negeri 4 Bandung</p>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Jurusan</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Ekstrakurikuler</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Lingkungan</a>
+                <a href="#" class="text-gray-700 hover:text-blue-600 font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-gradient-to-r from-blue-600 to-purple-600 after:transition-all after:duration-300 hover:after:w-full">Testimoni</a>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button id="menuToggle" class="md:hidden text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+            
+            <!-- Login Button -->
+            <button class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300">Login</button>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobileMenu" class="md:hidden hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+            <div class="px-4 py-4 space-y-4">
+                <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium">Jurusan</a>
+                <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium">Ekstrakurikuler</a>
+                <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium">Lingkungan</a>
+                <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium">Testimoni</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Content with Video and Text -->
+    <div class="relative z-10 min-h-screen flex items-center justify-center text-center px-4 pt-20">
+        <div class="max-w-4xl">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Selamat datang di<br><span class="text-white">SMKN 4 BANDUNG</span></h1>
+            <p class="text-lg md:text-xl mb-8 text-gray-200">Sekolah Menengah Kejuruan Negeri 4 Bandung merupakan lembaga pendidikan kejuruan yang menghasilkan tenaga kerja profesional di bidang teknologi dan industri.</p>
+            <button class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-full text-lg font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-300 border border-white/20">Kunjungi Sekolah</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="relative z-20 bg-white min-h-screen pt-20">
+        <!-- Features Section -->
+        <section class="max-w-7xl mx-auto px-4 py-20">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+                    <div class="w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center mb-6 mx-auto">
+                        <img src="https://placehold.co/32x32/2563eb/ffffff?text=P" alt="PPDB Icon" class="w-8 h-8">
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 text-center">Informasi PPDB</h3>
+                    <p class="text-gray-600 text-center leading-relaxed">Informasi lengkap tentang proses pendaftaran peserta didik baru di SMKN 4 Bandung termasuk syarat-syarat dan jadwal pelaksanaan.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+                    <div class="w-16 h-16 bg-gradient-to-r from-green-100 to-teal-100 rounded-2xl flex items-center justify-center mb-6 mx-auto">
+                        <img src="https://placehold.co/32x32/059669/ffffff?text=A" alt="Akademik Icon" class="w-8 h-8">
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 text-center">Sistem Akademik</h3>
+                    <p class="text-gray-600 text-center leading-relaxed">Sistem manajemen akademik modern yang mendukung proses pembelajaran dan evaluasi siswa secara efektif dan transparan.</p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
+                    <div class="w-16 h-16 bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl flex items-center justify-center mb-6 mx-auto">
+                        <img src="https://placehold.co/32x32/9333ea/ffffff?text=D" alt="Digital Icon" class="w-8 h-8">
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 text-center">Informasi Digital</h3>
+                    <p class="text-gray-600 text-center leading-relaxed">Akses informasi sekolah secara digital melalui platform online yang terintegrasi dengan semua layanan pendidikan.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="max-w-7xl mx-auto px-4 py-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="order-2 lg:order-1">
+                    <h2 class="text-4xl font-bold mb-6 text-gray-800">Tentang sekolah kami</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">SMKN 4 Bandung merupakan salah satu sekolah kejuruan unggul di wilayah Bandung yang memiliki reputasi baik dalam menghasilkan lulusan berkualitas. Sekolah ini didirikan pada tahun 1984 dengan fokus pada bidang teknologi dan industri.</p>
+                    <p class="text-gray-600 mb-8 leading-relaxed">Dengan fasilitas modern dan tenaga pengajar yang kompeten, SMKN 4 Bandung terus berupaya meningkatkan kualitas pendidikan untuk mencetak generasi muda yang siap menghadapi tantangan dunia kerja.</p>
+                    <div class="flex items-center space-x-4 bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                        <img src="https://placehold.co/64x64/2563eb/ffffff?text=K" alt="Kepala Sekolah" class="w-16 h-16 rounded-full">
+                        <div>
+                            <h4 class="text-xl font-semibold text-gray-800">Ny. Susanti, S.Pd., M.Pd.</h4>
+                            <p class="text-gray-600">Kepala Sekolah</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 lg:order-2">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80" alt="SMKN 4 Bandung" class="rounded-2xl shadow-2xl w-full transform hover:scale-105 transition-transform duration-300">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Section -->
+        <section class="max-w-7xl mx-auto px-4 py-20">
+            <h2 class="text-4xl font-bold mb-16 text-center text-gray-800">Berita dan Pengumuman</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="news-card active bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-blue-100">
+                    <div class="w-14 h-14 bg-gradient-to-r from-blue-100 to-purple-100 rounded-xl flex items-center justify-center mb-6">
+                        <img src="https://placehold.co/28x28/2563eb/ffffff?text=!!" alt="Notification Icon" class="w-7 h-7">
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">SMKN 4 Bandung Gelar Lomba Keterampilan Digital</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">Siswa SMKN 4 Bandung menunjukkan kemampuan teknologi terkini dalam kompetisi keterampilan digital yang diadakan bulan ini.</p>
+                    <p class="text-sm text-gray-500">25 Maret 2024</p>
+                </div>
+                
+                <div class="news-card bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-blue-100">
+                    <div class="w-14 h-14 bg-gradient-to-r from-green-100 to-teal-100 rounded-xl flex items-center justify-center mb-6">
+                        <img src="https://placehold.co/28x28/059669/ffffff?text=B" alt="Beasiswa Icon" class="w-7 h-7">
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Program Beasiswa untuk Siswa Berprestasi</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">SMKN 4 Bandung membuka program beasiswa bagi siswa berprestasi dengan nilai akademik tinggi dan aktivitas ekstrakurikuler.</p>
+                    <p class="text-sm text-gray-500">20 Maret 2024</p>
+                </div>
+                
+                <div class="news-card bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-transparent hover:border-blue-100">
+                    <div class="w-14 h-14 bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl flex items-center justify-center mb-6">
+                        <img src="https://placehold.co/28x28/9333ea/ffffff?text=T" alt="Teknologi Icon" class="w-7 h-7">
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-800">Kerjasama dengan Industri Teknologi</h3>
+                    <p class="text-gray-600 mb-4 leading-relaxed">SMKN 4 Bandung menjalin kerja sama strategis dengan perusahaan teknologi terkemuka untuk pengembangan kurikulum.</p>
+                    <p class="text-sm text-gray-500">15 Maret 2024</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="relative z-30 bg-gradient-to-r from-gray-800 to-gray-900 text-white py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Contact</h3>
+                    <p class="text-gray-300 mb-2">Kami senang mendengar dari Anda</p>
+                    <p class="text-gray-300">Berlangganan newsletter kami</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Telepon</h3>
+                    <p class="text-gray-300 mb-2">+62 22 1234 5678</p>
+                    <p class="text-gray-300 mb-2">info@smkn4bandung.sch.id</p>
+                    <p class="text-gray-300">Jl. PH.H. Mustofa No. 46, Bandung</p>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Sosial Media</h3>
+                    <p class="text-gray-300 mb-6">Ikuti kami di media sosial</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-12 h-12 bg-white/10 hover:bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center hover:shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20">
+                            <i class="fab fa-facebook-f text-white text-lg"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-white/10 hover:bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full flex items-center justify-center hover:shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20">
+                            <i class="fab fa-twitter text-white text-lg"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-white/10 hover:bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center hover:shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20">
+                            <i class="fab fa-instagram text-white text-lg"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-white/10 hover:bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center hover:shadow-lg transform hover:scale-110 transition-all duration-300 border border-white/20">
+                            <i class="fab fa-youtube text-white text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    menuToggle.innerHTML = mobileMenu.classList.contains('hidden') ? 
+                        '<i class="fas fa-bars text-xl"></i>' : 
+                        '<i class="fas fa-times text-xl"></i>';
+                });
+            }
+
+            // Auto-rotate news cards
+            const newsCards = document.querySelectorAll('.news-card');
+            let currentIndex = 0;
+
+            setInterval(() => {
+                newsCards.forEach(card => card.classList.remove('active'));
+                currentIndex = (currentIndex + 1) % newsCards.length;
+                newsCards[currentIndex].classList.add('active');
+            }, 5000);
+
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const nav = document.querySelector('nav');
+                if (window.scrollY > 50) {
+                    nav.style.background = 'rgba(255, 255, 255, 0.98)';
+                    nav.style.boxShadow = '0 5px 25px rgba(0,0,0,0.15)';
+                } else {
+                    nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                    nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+                }
+            });
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('#mobileMenu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuToggle.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
