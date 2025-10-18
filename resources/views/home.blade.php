@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>SMKN 4 BANDUNG - Robotika Kuara</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link {
+            @apply text-gray-700 hover:text-blue-600 font-medium relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(to right, #2563eb, #9333ea);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        /* Hover effect from left to right with background */
+        .nav-link-bg {
+            position: relative;
+            display: inline-block;
+            padding: 4px 0;
+        }
+        .nav-link-bg::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(to right, rgba(37, 99, 235, 0.1), rgba(147, 51, 234, 0.1));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+        .nav-link-bg:hover::before {
+            width: 100%;
+        }
+        .nav-link-bg span {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            margin: 0 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .dot.active {
+            background-color: #ffeb3b;
+            transform: scale(1.5);
+        }
+        
+        .photo-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .photo-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .reference-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .reference-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .event-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .event-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 8px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(to right, #0f4c5c, #009688);
+            border-radius: 3px;
+        }
+        
+        /* Fullscreen slider styles */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            transition: opacity 1s ease-in-out;
+            opacity: 0;
+            z-index: 1;
+        }
+        
+        .slide.active {
+            opacity: 1;
+            z-index: 10;
+        }
+        
+        .slide-content {
+            max-width: 800px;
+            padding: 2rem;
+            z-index: 20;
+        }
+        
+        .slide-content h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            line-height: 1.2;
+        }
+        
+        .slide-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            line-height: 1.5;
+        }
+        
+        /* Mobile responsive */
+        @media (min-width: 768px) {
+            .slide-content h1 {
+                font-size: 3.5rem;
+            }
+            .slide-content p {
+                font-size: 1.3rem;
+            }
+        }
+        
+        .dots-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 20;
+        }
+        
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f4c5c, #009688);
+            z-index: 0;
+        }
+        
+        .hero-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(0, 150, 136, 0.2) 0%, transparent 20%),
+                        radial-gradient(circle at 80% 70%, rgba(15, 76, 92, 0.2) 0%, transparent 20%);
+            z-index: 1;
+        }
+        
+        .hero-background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.1) 0%, transparent 100%);
+            z-index: 2;
+        }
+        
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 30;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+        
+        .scroll-indicator i {
+            font-size: 24px;
+            color: white;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-10px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-5px) translateX(-50%);
+            }
+        }
+    </style>
+    <!-- Ensure UTF-8 encoding in Laravel Blade -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Use Laravel asset helper if needed in future -->
+</head>
+<body class="bg-gray-50">
+    <!-- === NAVBAR === -->
+    <nav class="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md p-4 md:p-6 shadow-lg z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center space-x-4">
+                <img src="https://placehold.co/48x48/2563eb/ffffff?text=SMK" 
+                     alt="Logo SMKN 4 Bandung" 
+                     class="w-12 h-12 rounded-xl shadow-lg">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        SMKN 4 BANDUNG
+                    </h2>
+                    <p class="text-xs md:text-sm text-gray-600">
+                        Sekolah Menengah Kejuruan Negeri 4 Bandung
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Menu Desktop -->
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#" class="nav-link nav-link-bg"><span>Akademik</span></a>
+                <a href="#" class="nav-link nav-link-bg"><span>Ekstrakurikuler</span></a>
+                <a href="#" class="nav-link nav-link-bg"><span>E-Learning</span></a>
+                <a href="#" class="nav-link nav-link-bg"><span>PPDB</span></a>
+
+                @guest
+                <!-- Auth Dropdown (Login/Register) -->
+                <div class="relative" 
+                     x-data="{ open: false }"
+                     @keydown.escape.window="open = false"
+                     @click.away="open = false">
+                    <button 
+                        @click="open = !open"
+                        class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-2">
+                        <i class="fas fa-user"></i>
+                        <span>Masuk</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div 
+                        x-show="open" 
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform scale-95"
+                        x-transition:enter-end="opacity-100 transform scale-100"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 transform scale-100"
+                        x-transition:leave-end="opacity-0 transform scale-95"
+                        class="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50">
+                        <a href="/login" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors">
+                            <i class="fas fa-right-to-bracket w-5 text-gray-500"></i>
+                            <span class="font-medium">Login</span>
+                        </a>
+                        <div class="h-px bg-gray-100"></div>
+                        <a href="/register" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-purple-600 transition-colors">
+                            <i class="fas fa-user-plus w-5 text-gray-500"></i>
+                            <span class="font-medium">Register</span>
+                        </a>
+                    </div>
+                </div>
+                @endguest
+
+                @auth
+                <!-- Avatar/Profile + Tooltip + User Dropdown -->
+                <div class="relative" 
+                     x-data="{ showTooltip: {{ session('show_welcome_tooltip', 'true') ? 'true' : 'false' }}, open: false }"
+                     @keydown.escape.window="open = false"
+                     @click.away="open = false">
+                    <button 
+                        @click="open = !open"
+                        class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-full font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300 inline-flex items-center gap-2">
+                        <img src="{{ asset('images/default-avatar.svg') }}" alt="Avatar" class="w-6 h-6 rounded-full bg-white/20 p-0.5">
+                        <span>{{ Auth::user()->name ?: Auth::user()->username }}</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+
+                    <!-- Welcome Tooltip (restored) -->
+                    <div x-show="showTooltip" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 transform scale-95"
+                         x-transition:enter-end="opacity-100 transform scale-100"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100 transform scale-100"
+                         x-transition:leave-end="opacity-0 transform scale-95"
+                         @click.outside="showTooltip = false; hideWelcomeTooltip()"
+                         class="absolute right-0 top-12 z-50 w-56 bg-white rounded-xl shadow-xl border border-gray-100 p-3"
+                         style="display: none;">
+                        <div class="text-[13px] leading-snug text-gray-700">
+                            <p class="font-medium">Selamat datang, <b>{{ Auth::user()->name ?: Auth::user()->username }}</b>! 🎉</p>
+                            <p class="text-[12px] text-gray-500 mt-1">Klik ikon profil di kanan atas untuk mengedit akunmu atau melihat nilai e-learning.</p>
+                        </div>
+                        <div class="absolute -top-2 right-4 w-4 h-4 bg-white border-l border-t border-gray-100 transform rotate-45"></div>
+                    </div>
+
+                    <!-- User Dropdown with brief description -->
+                    <div 
+                        x-show="open" 
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform scale-95"
+                        x-transition:enter-end="opacity-100 transform scale-100"
+                        x-transition:leave="transition ease-in duration-150"
+                        x-transition:leave-start="opacity-100 transform scale-100"
+                        x-transition:leave-end="opacity-0 transform scale-95"
+                        class="absolute right-0 mt-3 w-64 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-50">
+                        <div class="px-4 py-3 flex items-center gap-3">
+                            <img src="{{ asset('images/default-avatar.svg') }}" alt="Avatar" class="w-10 h-10 rounded-full">
+                            <div class="leading-tight">
+                                <div class="font-semibold text-gray-800">{{ Auth::user()->name ?: Auth::user()->username }}</div>
+                                <div class="text-xs text-gray-500 truncate max-w-[12rem]">{{ Auth::user()->email }}</div>
+                            </div>
+                        </div>
+                        <!-- Deskripsi singkat profil -->
+                        <div class="px-4 pb-3 text-xs text-gray-600 space-y-1">
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-id-badge w-4 text-gray-400"></i>
+                                <span>Username: <span class="font-medium text-gray-700">{{ Auth::user()->username }}</span></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-layer-group w-4 text-gray-400"></i>
+                                <span>Kelas: <span class="font-medium text-gray-700">{{ Auth::user()->kelas ?: '-' }}</span></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-toolbox w-4 text-gray-400"></i>
+                                <span>Jurusan: <span class="font-medium text-gray-700">{{ Auth::user()->jurusan ?: '-' }}</span></span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fas fa-toggle-on w-4 text-gray-400"></i>
+                                <span>Status: <span class="font-medium text-gray-700">{{ Auth::user()->status ?: 'Aktif' }}</span></span>
+                            </div>
+                        </div>
+                        <div class="h-px bg-gray-100"></div>
+                        <a href="{{ route('profile') }}" class="flex items-center gap-2 px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors">
+                            <i class="fas fa-user-circle w-5 text-gray-500"></i>
+                            <span class="font-medium">Lihat Profil</span>
+                        </a>
+                    </div>
+                </div>
+                @endauth
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Toggle + Avatar -->
+            <div class="md:hidden flex items-center space-x-3">
+                <div class="relative" x-data="{ showTooltip: {{ session('show_welcome_tooltip', 'true') ? 'true' : 'false' }} }">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 flex items-center justify-center text-white cursor-pointer"
+                         @click="showTooltip = false; hideWelcomeTooltip()">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    
+                    <!-- Tooltip Popup Mobile -->
+                    <div x-show="showTooltip" 
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 transform scale-95"
+                         x-transition:enter-end="opacity-100 transform scale-100"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100 transform scale-100"
+                         x-transition:leave-end="opacity-0 transform scale-95"
+                         @click.outside="showTooltip = false; hideWelcomeTooltip()"
+                         class="absolute right-0 top-10 z-50 w-56 bg-white rounded-lg shadow-lg border border-gray-200 p-3"
+                         style="display: none;">
+                        <div class="text-sm text-gray-700">
+                            <p class="font-medium">Selamat datang, <b>{{ Auth::user()->name ?: Auth::user()->username }}</b>! 🎉</p>
+                            <p class="text-xs text-gray-500 mt-1">
+                                Klik ikon profil untuk mengedit akunmu.
+                            </p>
+                        </div>
+                        <!-- Arrow pointing up -->
+                        <div class="absolute -top-2 right-3 w-4 h-4 bg-white border-l border-t border-gray-200 transform rotate-45"></div>
+                    </div>
+                </div>
+                <button id="menuToggle" class="text-gray-700 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="md:hidden hidden absolute top-full left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+            <div class="px-4 py-4 space-y-4">
+                <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium">Akademik</a>
+                <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium">Ekstrakurikuler</a>
+                <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium">E-Learning</a>
+                <a href="#" class="block text-gray-700 hover:text-blue-600 font-medium">PPDB</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Slider Section -->
+    <section class="slider-container">
+        <!-- Background overlay -->
+        <div class="hero-background"></div>
+        
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <div class="slide-content">
+                <h1>Robotika Kuara</h1>
+                <p>Tim robotika SMKN 4 BANDUNG menjadi juara di ajang internasional di Singapura</p>
+            </div>
+        </div>
+        
+        <!-- Slide 2 -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Inovasi Pendidikan</h1>
+                <p>SMKN 4 Bandung terus berinovasi dalam pendidikan teknologi dan sains untuk masa depan generasi emas</p>
+            </div>
+        </div>
+        
+        <!-- Slide 3 -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Prestasi Gemilang</h1>
+                <p>Sekolah unggulan dengan prestasi nasional dan internasional di berbagai bidang kompetisi</p>
+            </div>
+        </div>
+        
+        <!-- Dots Navigation -->
+        <div class="dots-container">
+            <div class="dot active" data-slide="0"></div>
+            <div class="dot" data-slide="1"></div>
+            <div class="dot" data-slide="2"></div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Principal's Message -->
+    <section class="py-12 px-4">
+        <div class="container mx-auto">
+            <h2 class="text-2xl font-bold text-blue-800 mb-8 section-title">Sambutan Kepala Sekolah</h2>
+            
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                <div class="md:flex">
+                    <div class="md:w-1/3 bg-gray-100 p-6 flex items-center justify-center">
+                        <img src="https://placehold.co/300x400/1f2937/ffffff?text=Foto+Kepala+Sekolah" alt="Kepala Sekolah" class="rounded-lg max-w-full h-auto">
+                    </div>
+                    <div class="md:w-2/3 p-6">
+                        <div class="space-y-4">
+                            <p class="text-gray-700 leading-relaxed">
+                                Assalamu'alaikum Warahmatullahi Wabarakatuh,
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                Selamat datang di website resmi SMK Negeri 4 Bandung. Kami sangat bangga dapat memberikan informasi terkini mengenai prestasi, kegiatan, dan pengembangan pendidikan di sekolah kami.
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                Dengan semangat menciptakan generasi emas yang berkarakter dan berprestasi, kami terus berinovasi dalam segala aspek pendidikan. Semoga website ini menjadi sarana informasi yang bermanfaat bagi semua stakeholder.
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                Wassalamu'alaikum Warahmatullahi Wabarakatuh
+                            </p>
+                            <div class="mt-6">
+                                <p class="font-semibold text-gray-800">Dr. Agus setiawan, M.Pd.</p>
+                                <p class="text-sm text-gray-600">Kepala Sekolah SMAN 1 CERDAS UNGGUL</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest News -->
+    <section class="py-12 px-4 bg-gray-50">
+        <div class="container mx-auto">
+            <h2 class="text-2xl font-bold text-blue-800 mb-8 section-title">Berita Terbaru</h2>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- News Card 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-40 bg-blue-500 flex items-center justify-center">
+                        <h3 class="text-white text-xl font-bold">Olimpiade Sains</h3>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-gray-500">23 Mei 2025</span>
+                        <h4 class="font-semibold mt-2 mb-2">Siswa SMAN 1 Juara Olimpiade Sains Tingkat Nasional</h4>
+                        <p class="text-sm text-gray-600 mb-3">Tim sains SMAN 1 berhasil meraih juara pertama dalam kompetisi olimpiade tingkat nasional.</p>
+                        <a href="#" class="text-blue-600 text-sm font-medium hover:text-blue-800">Baca Selengkapnya →</a>
+                    </div>
+                </div>
+                
+                <!-- News Card 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-40 bg-green-500 flex items-center justify-center">
+                        <h3 class="text-white text-xl font-bold">Pentas Seni</h3>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-gray-500">18 Mei 2025</span>
+                        <h4 class="font-semibold mt-2 mb-2">Pentas Seni Akhir Tahun Meriahkan Sekolah</h4>
+                        <p class="text-sm text-gray-600 mb-3">Kegiatan pentas seni akhir tahun berlangsung meriah dengan partisipasi seluruh siswa.</p>
+                        <a href="#" class="text-blue-600 text-sm font-medium hover:text-blue-800">Baca Selengkapnya →</a>
+                    </div>
+                </div>
+                
+                <!-- News Card 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-40 bg-yellow-500 flex items-center justify-center">
+                        <h3 class="text-white text-xl font-bold">Coding Guru</h3>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs text-gray-500">10 Mei 2025</span>
+                        <h4 class="font-semibold mt-2 mb-2">Pelatihan Coding untuk Guru di Era Digital</h4>
+                        <p class="text-sm text-gray-600 mb-3">SMAN 1 mengadakan pelatihan coding bagi guru untuk meningkatkan kualitas pembelajaran digital.</p>
+                        <a href="#" class="text-blue-600 text-sm font-medium hover:text-blue-800">Baca Selengkapnya →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section class="py-12 px-4">
+        <div class="container mx-auto">
+            <h2 class="text-2xl font-bold text-blue-800 mb-8 section-title">Event Terdekat</h2>
+            
+            <div class="space-y-6">
+                <!-- Event 1 -->
+                <div class="bg-white rounded-xl shadow-md p-5 event-card">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 text-blue-800 rounded-lg p-3 mr-4">
+                            <div class="text-center">
+                                <div class="font-bold text-lg">5 Juni</div>
+                                <div class="text-sm">2025</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Ujian Akhir Semester</h3>
+                            <p class="text-gray-600 mt-1">Penyelenggaraan ujian semester genap untuk seluruh kelas.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="bg-white rounded-xl shadow-md p-5 event-card">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 text-blue-800 rounded-lg p-3 mr-4">
+                            <div class="text-center">
+                                <div class="font-bold text-lg">12 Juni</div>
+                                <div class="text-sm">2025</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">PPDB Gelombang 1</h3>
+                            <p class="text-gray-600 mt-1">Pendaftaran Peserta Didik Baru (PPDB) gelombang pertama dibuka.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="bg-white rounded-xl shadow-md p-5 event-card">
+                    <div class="flex items-start">
+                        <div class="bg-blue-100 text-blue-800 rounded-lg p-3 mr-4">
+                            <div class="text-center">
+                                <div class="font-bold text-lg">20 Juni</div>
+                                <div class="text-sm">2025</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg">Seminar Karier dan Perguruan Tinggi</h3>
+                            <p class="text-gray-600 mt-1">Kegiatan seminar tentang karier dan pilihan perguruan tinggi pasca SMA.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="py-12 px-4 bg-gray-50">
+        <div class="container mx-auto">
+            <h2 class="text-2xl font-bold text-blue-800 mb-8 section-title">Galeri Foto</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Photo 1 -->
+                <div class="bg-blue-500 rounded-xl overflow-hidden photo-card">
+                    <div class="h-48 flex items-center justify-center">
+                        <h3 class="text-white text-xl font-bold">Foto 1</h3>
+                    </div>
+                </div>
+                
+                <!-- Photo 2 -->
+                <div class="bg-blue-500 rounded-xl overflow-hidden photo-card">
+                    <div class="h-48 flex items-center justify-center">
+                        <h3 class="text-white text-xl font-bold">Foto 2</h3>
+                    </div>
+                </div>
+                
+                <!-- Photo 3 -->
+                <div class="bg-blue-500 rounded-xl overflow-hidden photo-card">
+                    <div class="h-48 flex items-center justify-center">
+                        <h3 class="text-white text-xl font-bold">Foto 3</h3>
+                    </div>
+                </div>
+                
+                <!-- Photo 4 -->
+                <div class="bg-blue-500 rounded-xl overflow-hidden photo-card">
+                    <div class="h-48 flex items-center justify-center">
+                        <h3 class="text-white text-xl font-bold">Foto 4</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- References -->
+    <section class="py-12 px-4">
+        <div class="container mx-auto">
+            <h2 class="text-2xl font-bold text-blue-800 mb-8 section-title">Referensi</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <!-- Reference 1 -->
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-4 reference-card">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-book-open text-2xl mb-2"></i>
+                        <span class="text-sm font-medium">E-Report</span>
+                    </div>
+                </div>
+                
+                <!-- Reference 2 -->
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-4 reference-card">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-graduation-cap text-2xl mb-2"></i>
+                        <span class="text-sm font-medium">PPDB</span>
+                    </div>
+                </div>
+                
+                <!-- Reference 3 -->
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-4 reference-card">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-book text-2xl mb-2"></i>
+                        <span class="text-sm font-medium">Perpustakaan</span>
+                    </div>
+                </div>
+                
+                <!-- Reference 4 -->
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-4 reference-card">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-laptop text-2xl mb-2"></i>
+                        <span class="text-sm font-medium">E-Learning</span>
+                    </div>
+                </div>
+                
+                <!-- Reference 5 -->
+                <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl p-4 reference-card">
+                    <div class="flex flex-col items-center">
+                        <i class="fas fa-palette text-2xl mb-2"></i>
+                        <span class="text-sm font-medium">Daftar Ekstrakurikuler</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white pt-10 pb-6 px-4">
+        <div class="container mx-auto">
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- School Info -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">SMKN 4 BANDUNG</h3>
+                    <p class="text-gray-300 mb-4">Jl. Pendidikan No. 123, Kota Cerdas, Indonesia</p>
+                    <p class="text-gray-300">Telp: (021) 1234567 | Email: info@smkn4bandung.sch.id</p>
+                </div>
+                
+                <!-- Navigation -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Navigasi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Akademik</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Ekstrakurikuler</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">E-Learning</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">PPDB</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Social Media -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Media Sosial</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white">Instagram</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Facebook</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Youtube</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>© 2025 SMAN 1 CERDAS UNGGUL. Hak Cipta Dilindungi Undang-undang.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set session untuk mencegah tooltip muncul lagi setelah user menutupnya
+        function hideWelcomeTooltip() {
+            fetch('{{ route("home") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    hide_tooltip: true
+                })
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            if (menuToggle && mobileMenu) {
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    menuToggle.innerHTML = mobileMenu.classList.contains('hidden') ? 
+                        '<i class="fas fa-bars text-xl"></i>' : 
+                        '<i class="fas fa-times text-xl"></i>';
+                });
+            }
+
+            // Auto-close mobile menu on link click
+            document.querySelectorAll('#mobileMenu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuToggle.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+                });
+            });
+        });
+        
+        // Slider functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        
+        // Function to show specific slide
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // Show current slide
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+        
+        // Auto slide change
+        function autoSlide() {
+            let nextSlide = currentSlide + 1;
+            if (nextSlide >= slides.length) {
+                nextSlide = 0;
+            }
+            showSlide(nextSlide);
+        }
+        
+        // Set interval for auto sliding (every 5 seconds)
+        let autoSlideInterval = setInterval(autoSlide, 5000);
+        
+        // Add click event to dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                clearInterval(autoSlideInterval); // Stop auto sliding when user interacts
+                showSlide(index);
+                // Restart auto sliding after user interaction
+                setTimeout(() => {
+                    autoSlideInterval = setInterval(autoSlide, 5000);
+                }, 3000);
+            });
+        });
+        
+        // Add smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Add animation on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        // Animate cards on scroll
+        document.querySelectorAll('.card-hover, .photo-card, .reference-card, .event-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+        
+        // Scroll indicator click functionality
+        document.querySelector('.scroll-indicator').addEventListener('click', function() {
+            document.querySelector('.slider-container').nextElementSibling.scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
+
+
